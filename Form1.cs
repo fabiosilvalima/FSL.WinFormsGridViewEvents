@@ -26,12 +26,14 @@ namespace FSL.WinFormsGridViewEvents
         {
             var dts = new DataSet();
             dts.Tables.Add(new DataTable("Table1"));
+            dts.Tables[0].Columns.Add("Checked", typeof(bool));
             dts.Tables[0].Columns.Add("FirstName", typeof(string));
             dts.Tables[0].Columns.Add("LastName", typeof(string));
 
             for (var i = 0; i < 10; i++)
             {
                 var dtr = dts.Tables[0].NewRow();
+                dtr["Checked"] = false;
                 dtr["FirstName"] = $"Fabio {i}";
                 dtr["LastName"] = $"Silva Lima {i}";
 
@@ -67,6 +69,12 @@ namespace FSL.WinFormsGridViewEvents
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             ToCellUpper(e.RowIndex, e.ColumnIndex);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var table = dataGridView1.DataSource as DataTable;
+            var rows = table.Select("Checked = true");
         }
     }
 }
